@@ -3,6 +3,7 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.plugin.screengrab.FlxScreenGrab;
 import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
@@ -20,14 +21,19 @@ class PlayState extends FlxState
 	
 	private var _player:FlxSprite;
 	
-	private var _mouseControls:Bool = false;
-	
 	private var _NGRadio:FlxSound;
+	private var _screenGrab:FlxButton;
+	
+	private var _title:FlxText;
 	
 	override public function create():Void
 	{
 		
 		createRadio();
+		
+		_title = new FlxText(0, -135, 0, "Title Here\nControls:\nWASD = Move\nSpacebar= Draw", 25);
+		_title.color = FlxColor.BLACK;
+		add(_title);
 		
 		_bg = new FlxSprite(0, 0);
 		_bg.makeGraphic(FlxG.width * 2, FlxG.height * 2);
@@ -44,6 +50,15 @@ class PlayState extends FlxState
 		add(_frame);
 		add(_bg);
 		add(_player);
+		
+		FlxScreenGrab.defineCaptureRegion(0, 0, Std.int(_bg.width), Std.int(_bg.height));
+		_screenGrab = new FlxButton(20, 20, "Screenshot", 
+		function()
+		{
+			FlxScreenGrab.grab(null, true, true);
+		});
+		
+		add(_screenGrab);
 		
 		FlxG.camera.follow(_player);
 		FlxG.camera.followLead.x = FlxG.camera.followLead.y = 20;
@@ -89,17 +104,9 @@ class PlayState extends FlxState
 			_bg.stamp(_player, Std.int(_player.x), Std.int(_player.y));
 		}
 		
-		if (FlxG.keys.justPressed.M)
+		if (FlxG.keys.anyJustPressed([DELETE, BACKSPACE]))
 		{
 			_bg.stamp(_bgClone, 0, 0);
-			
-			//_mouseControls = !_mouseControls;
-		}
-		
-		if (_mouseControls)
-		{
-			_player.x = FlxG.mouse.x;
-			_player.y = FlxG.mouse.y;
 		}
 		
 		super.update(elapsed);
