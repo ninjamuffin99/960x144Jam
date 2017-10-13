@@ -27,6 +27,8 @@ class PlayState extends FlxState
 	private var _screenGrab:FlxButton;
 	
 	private var _title:FlxText;
+	private var _prompts:FlxText;
+	
 	
 	private var _timer:Float = 0.05;
 	
@@ -38,6 +40,13 @@ class PlayState extends FlxState
 		_title = new FlxText(0, -135, 0, "Title Here\nControls:\nWASD = Move\nSpacebar= Draw", 25);
 		_title.color = FlxColor.BLACK;
 		add(_title);
+		
+		
+		var curr_date:Date = Date.now();
+		
+		_prompts = new FlxText(400, -40, 0, "Prompt of the day: " + Prompts.prompts[curr_date.getDate()], 25);
+		_prompts.color = FlxColor.BLACK;
+		add(_prompts);
 		
 		_bg = new FlxSprite(0, 0);
 		_bg.makeGraphic(FlxG.width * 2, FlxG.height * 2);
@@ -71,7 +80,7 @@ class PlayState extends FlxState
 		//add(_screenGrab);
 		
 		FlxG.camera.follow(_player);
-		FlxG.camera.followLead.x = FlxG.camera.followLead.y = 20;
+		FlxG.camera.followLead.x = FlxG.camera.followLead.y = 25;
 		FlxG.camera.bgColor = FlxColor.WHITE;
 		
 		super.create();
@@ -137,13 +146,14 @@ class PlayState extends FlxState
 			
 			if (FlxG.keys.pressed.DOWN)
 			{
-				FlxG.camera.zoom += 1 / ZOOM_FACTOR;
+				FlxG.camera.zoom -= 1 / ZOOM_FACTOR;
 			}
 			if (FlxG.keys.pressed.UP)
 			{
-				FlxG.camera.zoom -= 1 / ZOOM_FACTOR;
+				FlxG.camera.zoom += 1 / ZOOM_FACTOR;
 			}
 		}
+		
 		
 		undo();
 		
