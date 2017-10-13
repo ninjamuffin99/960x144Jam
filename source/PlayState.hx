@@ -17,6 +17,7 @@ class PlayState extends FlxState
 	private var _bg:FlxSprite;
 	private var _bgClone:FlxSprite;
 	private var _bgUndo:FlxSprite;
+	private var _bgRedo:FlxSprite;
 	
 	private var _frame:FlxSprite;
 	
@@ -50,6 +51,9 @@ class PlayState extends FlxState
 		
 		_bgUndo = new FlxSprite(0, 0);
 		_bgUndo = _bg.clone();
+		
+		_bgRedo = new FlxSprite(0, 0);
+		_bgRedo = _bg.clone();
 		
 		_player = new Player(100, 100);
 		
@@ -153,9 +157,19 @@ class PlayState extends FlxState
 			_bg.stamp(_bgUndo);
 		}
 		
+		if (FlxG.keys.pressed.X)
+		{
+			_bg.stamp(_bgRedo);
+		}
+		
 		if (FlxG.keys.justPressed.SPACE)
 		{
 			_bgUndo.stamp(_bg);
+		}
+		
+		if (FlxG.keys.justReleased.SPACE)
+		{
+			_bgRedo.stamp(_bg);
 		}
 		
 	}
