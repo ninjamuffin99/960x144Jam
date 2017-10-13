@@ -16,6 +16,7 @@ class PlayState extends FlxState
 	
 	private var _bg:FlxSprite;
 	private var _bgClone:FlxSprite;
+	private var _bgUndo:FlxSprite;
 	
 	private var _frame:FlxSprite;
 	
@@ -25,6 +26,8 @@ class PlayState extends FlxState
 	private var _screenGrab:FlxButton;
 	
 	private var _title:FlxText;
+	
+	private var _timer:Float = 0.05;
 	
 	override public function create():Void
 	{
@@ -45,6 +48,9 @@ class PlayState extends FlxState
 		_bgClone = _bg.clone();
 		_bg.stamp(_bgClone, 0, 0);
 		
+		_bgUndo = new FlxSprite(0, 0);
+		_bgUndo = _bg.clone();
+		
 		_player = new Player(100, 100);
 		
 		add(_frame);
@@ -58,7 +64,7 @@ class PlayState extends FlxState
 			FlxScreenGrab.grab(null, true, true);
 		});
 		
-		add(_screenGrab);
+		//add(_screenGrab);
 		
 		FlxG.camera.follow(_player);
 		FlxG.camera.followLead.x = FlxG.camera.followLead.y = 20;
@@ -101,7 +107,19 @@ class PlayState extends FlxState
 		
 		if (FlxG.keys.pressed.SPACE || FlxG.mouse.pressed)
 		{
-			_bg.stamp(_player, Std.int(_player.x), Std.int(_player.y));
+			if (_timer <= 0)
+			{
+				_bg.stamp(_player, Std.int(_player.x), Std.int(_player.y));
+			}
+			else
+			{
+				_timer -= FlxG.elapsed;
+			}
+			
+		}
+		else
+		{
+			_timer = 0.05;
 		}
 		
 		if (FlxG.keys.anyJustPressed([DELETE, BACKSPACE]))
@@ -109,6 +127,36 @@ class PlayState extends FlxState
 			_bg.stamp(_bgClone, 0, 0);
 		}
 		
+		if (FlxG.keys.anyPressed([UP, DOWN]))
+		{
+			var ZOOM_FACTOR:Int = 35;
+			
+			if (FlxG.keys.pressed.DOWN)
+			{
+				FlxG.camera.zoom += 1 / ZOOM_FACTOR;
+			}
+			if (FlxG.keys.pressed.UP)
+			{
+				FlxG.camera.zoom -= 1 / ZOOM_FACTOR;
+			}
+		}
+		
+		undo();
+		
 		super.update(elapsed);
+	}
+	
+	private function undo():Void
+	{
+		if (FlxG.keys.pressed.Z)
+		{
+			_bg.stamp(_bgUndo);
+		}
+		
+		if (FlxG.keys.justPressed.SPACE)
+		{
+			_bgUndo.stamp(_bg);
+		}
+		
 	}
 }
