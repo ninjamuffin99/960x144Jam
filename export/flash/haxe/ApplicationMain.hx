@@ -34,6 +34,10 @@ class ApplicationMain {
 		types.push (lime.Assets.AssetType.TEXT);
 		
 		
+		urls.push ("assets/images/552086.jpg");
+		types.push (lime.Assets.AssetType.IMAGE);
+		
+		
 		urls.push ("assets/images/images-go-here.txt");
 		types.push (lime.Assets.AssetType.TEXT);
 		
@@ -131,11 +135,11 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "130",
+			build: "139",
 			company: "ninjaMuffin",
 			file: "960x144Jam",
 			fps: 60,
-			name: "960x144Jam",
+			name: "Gestured",
 			orientation: "",
 			packageName: "com.example.myapp",
 			version: "0.0.1",
@@ -153,7 +157,7 @@ class ApplicationMain {
 					parameters: "{}",
 					resizable: true,
 					stencilBuffer: true,
-					title: "960x144Jam",
+					title: "Gestured",
 					vsync: true,
 					width: 640,
 					x: null,

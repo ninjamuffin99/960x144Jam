@@ -29,6 +29,8 @@ class PlayState extends FlxState
 	private var _title:FlxText;
 	private var _prompts:FlxText;
 	
+	private var _reference:FlxSprite;
+	
 	/**
 	 * Timer so that when inking, it doesn't save the initial do in the undo/redo
 	 */
@@ -68,8 +70,17 @@ class PlayState extends FlxState
 		
 		_player = new Player(100, 100);
 		
+		
+		_reference = new FlxSprite(70, 0);
+		_reference.loadGraphic("assets/images/552086.jpg", false, 1829, 2870);
+		_reference.setGraphicSize(0, Std.int(_bg.height));
+		_reference.updateHitbox();
+		_reference.alpha = 0.5;
+		
+		
 		add(_frame);
 		add(_bg);
+		add(_reference);
 		add(_player);
 		
 		FlxScreenGrab.defineCaptureRegion(0, 0, Std.int(_bg.width), Std.int(_bg.height));
@@ -84,6 +95,7 @@ class PlayState extends FlxState
 		FlxG.camera.follow(_player);
 		FlxG.camera.followLead.x = FlxG.camera.followLead.y = 25;
 		FlxG.camera.bgColor = FlxColor.WHITE;
+		
 		
 		super.create();
 	}
