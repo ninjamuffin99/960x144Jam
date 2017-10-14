@@ -38,6 +38,8 @@ class PlayState extends FlxState
 	
 	private var _maxBrushSize:Float = 6;
 	
+	private var _scoreMode:ScoreMode;
+	
 	/**
 	 * Timer so that when inking, it doesn't save the initial do in the undo/redo
 	 */
@@ -84,11 +86,15 @@ class PlayState extends FlxState
 		_reference.updateHitbox();
 		_reference.alpha = 0.5;
 		
+		_scoreMode = new ScoreMode();
+		_scoreMode.scrollFactor.x = _scoreMode.scrollFactor.y = 0;
+		
 		
 		add(_frame);
 		add(_bg);
 		//add(_reference);
 		add(_player);
+		add(_scoreMode);
 		
 		FlxScreenGrab.defineCaptureRegion(0, 0, Std.int(_bg.width), Std.int(_bg.height));
 		_screenGrab = new FlxButton(20, 20, "Save Image", 
@@ -113,6 +119,7 @@ class PlayState extends FlxState
 		FlxG.camera.follow(_player);
 		FlxG.camera.followLead.x = FlxG.camera.followLead.y = 25;
 		FlxG.camera.bgColor = FlxColor.WHITE;
+		
 		
 		
 		super.create();
