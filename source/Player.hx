@@ -35,10 +35,10 @@ class Player extends FlxSprite
 	
 	private function controls():Void
 	{
-		var _up = FlxG.keys.anyPressed([UP, W]);
-		var _down = FlxG.keys.anyPressed([DOWN, S]);
-		var _left = FlxG.keys.anyPressed([LEFT, A]);
-		var _right = FlxG.keys.anyPressed([RIGHT, D]);
+		var _up = FlxG.keys.anyPressed([W]);
+		var _down = FlxG.keys.anyPressed([ S]);
+		var _left = FlxG.keys.anyPressed([A]);
+		var _right = FlxG.keys.anyPressed([D]);
 		
 		if (_up && _down)
 			_up = _down = false;

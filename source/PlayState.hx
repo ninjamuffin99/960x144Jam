@@ -29,7 +29,9 @@ class PlayState extends FlxState
 	private var _title:FlxText;
 	private var _prompts:FlxText;
 	
-	
+	/**
+	 * Timer so that when inking, it doesn't save the initial do in the undo/redo
+	 */
 	private var _timer:Float = 0.05;
 	
 	override public function create():Void
@@ -104,19 +106,22 @@ class PlayState extends FlxState
 		var velX:Float = _player.velocity.x;
 		var velY:Float = _player.velocity.y;
 		
+		/*
 		if (velX < 0)
 		{
 			velX * -1;
+			FlxG.watch.addQuick("VELX", velX);
 		}
 		if (velY < 0)
 		{
 			velY * -1;
+			FlxG.watch.addQuick("VELY", velY);
 		}
-		
-		FlxG.watch.addQuick("VELY", velY);
-		FlxG.watch.addQuick("VELX", velX);
+		*/
 		
 		_player.scale.x = _player.scale.y = (FlxMath.remapToRange(velY, 0, 160, 0, 6) + FlxMath.remapToRange(velX, 0, 160, 0, 6));
+		//_player.setGraphicSize(Std.int(FlxMath.remapToRange(velY, 0, 160, 0, 6) + FlxMath.remapToRange(velX, 0, 160, 0, 6)));
+		FlxG.watch.addQuick("Scale", _player.scale.x);
 		
 		if (FlxG.keys.pressed.SPACE || FlxG.mouse.pressed)
 		{
@@ -135,6 +140,8 @@ class PlayState extends FlxState
 			_timer = 0.05;
 		}
 		
+		//Zoom float for screenshots = 0.5
+		
 		if (FlxG.keys.anyJustPressed([DELETE, BACKSPACE]))
 		{
 			_bg.stamp(_bgClone, 0, 0);
@@ -148,11 +155,17 @@ class PlayState extends FlxState
 			{
 				FlxG.camera.zoom -= 1 / ZOOM_FACTOR;
 			}
+			if (FlxG.camera.zoom < 0.24)
+			{
+				FlxG.camera.zoom = 0.24;
+			}
 			if (FlxG.keys.pressed.UP)
 			{
 				FlxG.camera.zoom += 1 / ZOOM_FACTOR;
 			}
 		}
+		
+		FlxG.watch.addQuick("Cam Scale", FlxG.camera.zoom);
 		
 		
 		undo();
