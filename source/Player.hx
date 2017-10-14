@@ -20,7 +20,7 @@ class Player extends FlxSprite
 		super(X, Y);
 		
 		makeGraphic(1, 1, FlxColor.BLACK);
-		drag.x = drag.y = speed;
+		drag.x = drag.y = speed * 0.75;
 		maxVelocity.x = maxVelocity.y = 160;
 	}
 	

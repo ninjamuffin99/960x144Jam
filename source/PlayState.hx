@@ -31,6 +31,8 @@ class PlayState extends FlxState
 	
 	private var _reference:FlxSprite;
 	
+	private var _maxBrushSize:Float = 6;
+	
 	/**
 	 * Timer so that when inking, it doesn't save the initial do in the undo/redo
 	 */
@@ -80,7 +82,7 @@ class PlayState extends FlxState
 		
 		add(_frame);
 		add(_bg);
-		add(_reference);
+		//add(_reference);
 		add(_player);
 		
 		FlxScreenGrab.defineCaptureRegion(0, 0, Std.int(_bg.width), Std.int(_bg.height));
@@ -131,9 +133,20 @@ class PlayState extends FlxState
 		}
 		*/
 		
-		_player.scale.x = _player.scale.y = (FlxMath.remapToRange(velY, 0, 160, 0, 6) + FlxMath.remapToRange(velX, 0, 160, 0, 6));
+		_player.scale.x = _player.scale.y = (FlxMath.remapToRange(velY, 0, 160, 0, _maxBrushSize) + FlxMath.remapToRange(velX, 0, 160, 0, _maxBrushSize));
 		//_player.setGraphicSize(Std.int(FlxMath.remapToRange(velY, 0, 160, 0, 6) + FlxMath.remapToRange(velX, 0, 160, 0, 6)));
 		FlxG.watch.addQuick("Scale", _player.scale.x);
+		
+		controls();
+		
+		
+		undo();
+		
+		super.update(elapsed);
+	}
+	
+	private function controls():Void
+	{
 		
 		if (FlxG.keys.pressed.SPACE || FlxG.mouse.pressed)
 		{
@@ -177,12 +190,17 @@ class PlayState extends FlxState
 			}
 		}
 		
+		if (FlxG.keys.justPressed.RIGHT)
+		{
+			_maxBrushSize *= 1.1;
+		}
+		if (FlxG.keys.justPressed.LEFT)
+		{
+			_maxBrushSize /= 1.1;
+		}
+		
 		FlxG.watch.addQuick("Cam Scale", FlxG.camera.zoom);
 		
-		
-		undo();
-		
-		super.update(elapsed);
 	}
 	
 	private function undo():Void
