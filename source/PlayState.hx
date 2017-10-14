@@ -1,15 +1,20 @@
 package;
 
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.utils.ByteArray;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.plugin.screengrab.FlxScreenGrab;
+import flixel.addons.util.PNGEncoder;
 import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+import openfl.net.FileReference;
 
 class PlayState extends FlxState
 {
@@ -89,10 +94,21 @@ class PlayState extends FlxState
 		_screenGrab = new FlxButton(20, 20, "Screenshot", 
 		function()
 		{
-			FlxScreenGrab.grab(null, true, true);
+			/*
+			var bmp:BitmapData = new BitmapData(_bg.width, _bg.height, true, 0x0);
+			bmp.draw(_bg.pixels);
+			var b:ByteArray = bmp.encode(
+			*/
+			var png:ByteArray;
+			png = PNGEncoder.encode(_bg.pixels);
+			
+			var file:FileReference = new FileReference();
+			file.save(png, "LOL");
+			//Backup
+			//FlxScreenGrab.grab(null, true, true);
 		});
 		
-		//add(_screenGrab);
+		add(_screenGrab);
 		
 		FlxG.camera.follow(_player);
 		FlxG.camera.followLead.x = FlxG.camera.followLead.y = 25;
