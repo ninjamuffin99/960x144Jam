@@ -91,7 +91,7 @@ class PlayState extends FlxState
 		add(_player);
 		
 		FlxScreenGrab.defineCaptureRegion(0, 0, Std.int(_bg.width), Std.int(_bg.height));
-		_screenGrab = new FlxButton(20, 20, "Screenshot", 
+		_screenGrab = new FlxButton(20, 20, "Save Image", 
 		function()
 		{
 			/*

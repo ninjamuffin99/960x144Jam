@@ -45,6 +45,17 @@ class Player extends FlxSprite
 		if (_left && _right)
 			_left = _right = false;
 		
+		if (FlxG.keys.pressed.SHIFT)
+		{
+			speed = 190;
+			maxVelocity.x = maxVelocity.y = 260;
+		}
+		else
+		{
+			speed = 140;
+			maxVelocity.x = maxVelocity.y = 160;
+		}
+		
 		if (_up || _down || _left || _right)
 		{
 			var mA:Float = 0;
