@@ -103,7 +103,7 @@ class PlayState extends FlxState
 			png = PNGEncoder.encode(_bg.pixels);
 			
 			var file:FileReference = new FileReference();
-			file.save(png, "LOL");
+			file.save(png, "Art.png");
 			//Backup
 			//FlxScreenGrab.grab(null, true, true);
 		});
