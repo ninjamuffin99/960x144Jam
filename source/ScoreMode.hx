@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
+import flixel.math.FlxPoint;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -22,26 +23,42 @@ class ScoreMode extends FlxSpriteGroup
 	private var _timerStarted:Bool = false;
 	
 	private var _timerGrp:FlxSpriteGroup;
+	private var _instructionGrp:FlxSpriteGroup;
 
 	public function new() 
 	{
 		super();
 		
 		instructionsInit();
-		
 		createTimer();
-		newTimer();
+		
+		startScore();
+		//newTimer();
 	}
 	
 	private function instructionsInit():Void
 	{
-		var _intstuctBG:FlxSprite(0, 0);
-		_intstuctBG.makeGraphic(400, 300);
-		_intstuctBG.screenCenter(X);
+		var _instructBG:FlxSprite;
+		_instructBG = new FlxSprite();
+		_instructBG.makeGraphic(400, 300);
+		_instructBG.screenCenter(X);
 		
-		var _intstuctBG2:FlxSprite(0, 0);
-		_intstuctBG2.makeGraphic(400, 300);
-		_intstuctBG2.screenCenter(X);
+		var _instructBG2:FlxSprite;
+		_instructBG2 = new FlxSprite(0, 0 - 3);
+		_instructBG2.makeGraphic(406, 306, FlxColor.BLACK);
+		_instructBG2.screenCenter(X);
+		
+		var _instructionText:FlxText;
+		_instructionText = new FlxText(150, 15, 270, "Draw over the image and create a gesture drawing for points!", 30);
+		_instructionText.color = FlxColor.BLACK;
+		
+		_instructionGrp = new FlxSpriteGroup();
+		_instructionGrp.add(_instructBG2);
+		_instructionGrp.add(_instructBG);
+		_instructionGrp.add(_instructionText);
+		
+		add(_instructionGrp);
+		
 	}
 	
 	private function createTimer():Void
@@ -66,6 +83,8 @@ class ScoreMode extends FlxSpriteGroup
 		_timerGrp.add(_timer);
 		add(_timerGrp);
 		
+		
+		
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -87,9 +106,19 @@ class ScoreMode extends FlxSpriteGroup
 		super.update(elapsed);
 	}
 	
+	public function startScore():Void
+	{
+		_instructionGrp.y = 0 - 100;
+		_instructionGrp.alpha = 1;
+		FlxTween.quadPath(_instructionGrp, [FlxPoint.get(0, 0), FlxPoint.get(0, 300), FlxPoint.get(0, 900)], 5, true, {ease:FlxEase.quartInOut});
+		FlxTween.tween(_instructionGrp, {alpha:0, y: FlxG.height}, 5);
+		
+		newTimer();
+	}
+	
 	public function newTimer():Void
 	{
-		_timerGrp.alpha = 0;
+		//_timerGrp.alpha = 0;
 		_timerStarted = true;
 		_timeLimit = 60;
 		_timerGrp.y = 0 - 44;
