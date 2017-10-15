@@ -25,11 +25,12 @@ class ScoreMode extends FlxSpriteGroup
 	private var _timerGrp:FlxSpriteGroup;
 	private var _instructionGrp:FlxSpriteGroup;
 
+	private var _killing:Bool = false;
 	public function new() 
 	{
 		super();
 		
-		instructionsInit();
+		//instructionsInit();
 		createTimer();
 		//newTimer();
 	}
@@ -115,18 +116,25 @@ class ScoreMode extends FlxSpriteGroup
 	
 	public function newTimer():Void
 	{
-		//_timerGrp.alpha = 0;
+		_timerGrp.alpha = 1;
 		_timerStarted = true;
 		_timeLimit = 60;
 		_timerGrp.y = 0 - 44;
 		FlxTween.tween(_timerGrp, {y: FlxG.height * 0.1}, 0.8, {ease:FlxEase.backOut});
+		_killing = false;
 		//FlxTween.tween(_timerGrp, {alpha:1}, 0.7, {ease:FlxEase.quartInOut});
 	}
 	
 	public function killTimer():Void
 	{
-		FlxTween.tween(_timerGrp, {y:FlxG.camera.scroll.y - 46}, 0.8, {ease:FlxEase.backIn});
-		FlxTween.tween(_timerGrp, {alpha:0}, 0.7, {ease:FlxEase.quartInOut});
+		if (!_killing)
+		{
+			FlxTween.tween(_timerGrp, {y:FlxG.camera.scroll.y - 46}, 0.8, {ease:FlxEase.backIn});
+			FlxTween.tween(_timerGrp, {alpha:0}, 0.7, {ease:FlxEase.quartInOut});
+			
+			_killing = true;
+		}
+		
 	}
 	
 }

@@ -32,6 +32,7 @@ class PlayState extends FlxState
 	private var _screenGrab:FlxButton;
 	
 	private var _title:FlxText;
+	private var _controlsText:FlxText;
 	private var _prompts:FlxText;
 	
 	private var _reference:FlxSprite;
@@ -50,10 +51,13 @@ class PlayState extends FlxState
 		
 		createRadio();
 		
-		_title = new FlxText(0, -135, 0, "Title Here\nControls:\nWASD = Move\nSpacebar= Draw", 25);
+		_title = new FlxText(0, -135, 0, "GES\nTURED", 50);
 		_title.color = FlxColor.BLACK;
 		add(_title);
 		
+		_controlsText = new FlxText( -180, 0, 175, "Controls:\nWASD = Move\n\nSpacebar = Draw\n\nLeft/Right = Size\n\nUp/Down = Zoom", 25);
+		_controlsText.color = FlxColor.BLACK;
+		add(_controlsText);
 		
 		var curr_date:Date = Date.now();
 		
@@ -94,7 +98,7 @@ class PlayState extends FlxState
 		add(_bg);
 		//add(_reference);
 		add(_player);
-		add(_scoreMode);
+		//add(_scoreMode);
 		
 		FlxScreenGrab.defineCaptureRegion(0, 0, Std.int(_bg.width), Std.int(_bg.height));
 		_screenGrab = new FlxButton(20, 20, "Save Image", 
@@ -225,7 +229,12 @@ class PlayState extends FlxState
 		
 		if (FlxG.keys.justPressed.ONE)
 		{
-			_scoreMode.startScore();
+			_scoreMode.newTimer();
+		}
+		
+		if (FlxG.keys.justPressed.TWO)
+		{
+			_scoreMode.killTimer();
 		}
 		
 		FlxG.watch.addQuick("Cam Scale", FlxG.camera.zoom);
