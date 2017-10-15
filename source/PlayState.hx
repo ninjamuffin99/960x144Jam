@@ -55,7 +55,7 @@ class PlayState extends FlxState
 		_title.color = FlxColor.BLACK;
 		add(_title);
 		
-		_controlsText = new FlxText( -180, 0, 175, "Controls:\nWASD = Move\n\nSpacebar = Draw\n\nLeft/Right = Size\n\nUp/Down = Zoom", 25);
+		_controlsText = new FlxText( -180, 0, 175, "Controls:\nWASD = Move\n\nSpacebar = Draw\n\nLeft/Right = Size\n\nUp/Down = Zoom\n\nZ/x = Undo/Redo\n\nBackspace = Clear canvas", 25);
 		_controlsText.color = FlxColor.BLACK;
 		add(_controlsText);
 		
