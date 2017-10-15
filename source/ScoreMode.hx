@@ -31,8 +31,6 @@ class ScoreMode extends FlxSpriteGroup
 		
 		instructionsInit();
 		createTimer();
-		
-		startScore();
 		//newTimer();
 	}
 	
@@ -110,8 +108,7 @@ class ScoreMode extends FlxSpriteGroup
 	{
 		_instructionGrp.y = 0 - 100;
 		_instructionGrp.alpha = 1;
-		FlxTween.quadPath(_instructionGrp, [FlxPoint.get(0, 0), FlxPoint.get(0, 300), FlxPoint.get(0, 900)], 5, true, {ease:FlxEase.quartInOut});
-		FlxTween.tween(_instructionGrp, {alpha:0, y: FlxG.height}, 5);
+		FlxTween.tween(_instructionGrp, {y: FlxG.height}, 5);
 		
 		newTimer();
 	}

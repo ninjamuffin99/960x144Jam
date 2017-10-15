@@ -222,6 +222,12 @@ class PlayState extends FlxState
 			_maxBrushSize /= 1.1;
 		}
 		
+		
+		if (FlxG.keys.justPressed.ONE)
+		{
+			_scoreMode.startScore();
+		}
+		
 		FlxG.watch.addQuick("Cam Scale", FlxG.camera.zoom);
 		
 	}
