@@ -16,6 +16,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import openfl.net.FileReference;
 
+
 class PlayState extends FlxState
 {
 	
@@ -36,6 +37,7 @@ class PlayState extends FlxState
 	private var _prompts:FlxText;
 	
 	private var _reference:FlxSprite;
+	private var _randomRef:Int;
 	
 	private var _maxBrushSize:Float = 6;
 	
@@ -85,9 +87,6 @@ class PlayState extends FlxState
 		
 		
 		_reference = new FlxSprite(70, 0);
-		_reference.loadGraphic("assets/images/552086.jpg", false, 1829, 2870);
-		_reference.setGraphicSize(0, Std.int(_bg.height));
-		_reference.updateHitbox();
 		_reference.alpha = 0.5;
 		
 		_scoreMode = new ScoreMode();
@@ -96,9 +95,9 @@ class PlayState extends FlxState
 		
 		add(_frame);
 		add(_bg);
-		//add(_reference);
+		add(_reference);
 		add(_player);
-		//add(_scoreMode);
+		add(_scoreMode);
 		
 		FlxScreenGrab.defineCaptureRegion(0, 0, Std.int(_bg.width), Std.int(_bg.height));
 		_screenGrab = new FlxButton(20, 20, "Save Image", 
@@ -230,6 +229,7 @@ class PlayState extends FlxState
 		if (FlxG.keys.justPressed.ONE)
 		{
 			_scoreMode.newTimer();
+			startScoring();
 		}
 		
 		if (FlxG.keys.justPressed.TWO)
@@ -239,6 +239,16 @@ class PlayState extends FlxState
 		
 		FlxG.watch.addQuick("Cam Scale", FlxG.camera.zoom);
 		
+	}
+	
+	private function startScoring():Void
+	{
+		_randomRef = FlxG.random.int(0, 3);
+		_reference.loadGraphic(Prompts.art[_randomRef], false, Prompts.artWidth[_randomRef], Prompts.artHeight[_randomRef]);
+		_reference.setGraphicSize(0, Std.int(_bg.height));
+		_reference.updateHitbox();
+		
+		_scoreMode.newTimer();
 	}
 	
 	private function undo():Void
