@@ -151,7 +151,7 @@ class ApplicationMain {
 		
 		config = {
 			
-			build: "226",
+			build: "232",
 			company: "ninjaMuffin",
 			file: "960x144Jam",
 			fps: 60,

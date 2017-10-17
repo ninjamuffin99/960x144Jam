@@ -22,7 +22,7 @@ class ScoreMode extends FlxSpriteGroup
 	private var _timeLimit:Float = 60; //60 seconds, in milliseconds
 	public var _timerStarted:Bool = false;
 	
-	private var _timerGrp:FlxSpriteGroup;
+	public var _timerGrp:FlxSpriteGroup;
 	private var _instructionGrp:FlxSpriteGroup;
 
 	private var _running:Bool = false;
@@ -83,7 +83,6 @@ class ScoreMode extends FlxSpriteGroup
 		add(_timerGrp);
 		
 		
-		
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -109,7 +108,7 @@ class ScoreMode extends FlxSpriteGroup
 	{
 		_instructionGrp.y = 0 - 100;
 		_instructionGrp.alpha = 1;
-		FlxTween.tween(_instructionGrp, {y: FlxG.height}, 5);
+		//FlxTween.tween(_instructionGrp, {y: FlxG.height}, 5);
 		
 		newTimer();
 	}

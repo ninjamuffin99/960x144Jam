@@ -45,6 +45,10 @@ class PlayState extends FlxState
 	
 	private var _scoreMode:ScoreMode;
 	
+	private var _maxScore:Int = 1000;
+	private var _minScore:Int = 100;
+	private var _overallScore:Int;
+	
 	/**
 	 * Timer so that when inking, it doesn't save the initial do in the undo/redo
 	 */
@@ -187,6 +191,22 @@ class PlayState extends FlxState
 				_timer -= FlxG.elapsed;
 			}
 			
+			if (_scoring)
+			{
+				var overlappin:Bool;
+				_maxScore += 1;
+				if (FlxG.overlap(_player, _reference))
+				{
+					overlappin = true;
+					_maxScore += 1;
+				}
+				else
+				{
+					overlappin = false;
+				}
+				FlxG.watch.addQuick("Overlap and pressin", overlappin );
+			}
+			
 		}
 		else
 		{
@@ -261,6 +281,9 @@ class PlayState extends FlxState
 		_reference.alpha = 0;
 		_scoring = false;
 		_scoreMode._timerStarted = false;
+		
+		_overallScore = FlxG.random.int(_minScore, _maxScore);
+		FlxG.log.add(_overallScore);
 	}
 	
 	private function undo():Void
