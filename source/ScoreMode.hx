@@ -82,7 +82,7 @@ class ScoreMode extends FlxSpriteGroup
 		_timerGrp.add(_timer);
 		add(_timerGrp);
 		
-		
+		_timerGrp.visible = false;
 	}
 	
 	override public function update(elapsed:Float):Void 
@@ -100,6 +100,7 @@ class ScoreMode extends FlxSpriteGroup
 			}
 		}
 		
+		FlxG.watch.addQuick("TIMER ALPHA", _timerGrp.alpha);
 		
 		super.update(elapsed);
 	}
@@ -115,7 +116,7 @@ class ScoreMode extends FlxSpriteGroup
 	
 	public function newTimer():Void
 	{
-		_timerGrp.alpha = 1;
+		_timerGrp.visible = true;
 		_timerStarted = true;
 		_timeLimit = 60;
 		//FlxTween.tween(_timerGrp, {y: FlxG.height * 0.1}, 0.8, {ease:FlxEase.backOut});
@@ -126,8 +127,8 @@ class ScoreMode extends FlxSpriteGroup
 	public function killTimer():Void
 	{
 		_timeLimit = 0;
-		_timerGrp.alpha = 0;
-		
+		_timerGrp.visible = false;
+		_timerStarted = false;
 	}
 	
 }
