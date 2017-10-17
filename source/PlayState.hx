@@ -213,6 +213,7 @@ class PlayState extends FlxState
 			_timer = 0.05;
 		}
 		
+		FlxG.watch.addQuick("MAX RANDO", _maxScore);
 		//Zoom float for screenshots = 0.5
 		
 		if (FlxG.keys.anyJustPressed([DELETE, BACKSPACE]))
@@ -247,6 +248,10 @@ class PlayState extends FlxState
 			_maxBrushSize /= 1.1;
 		}
 		
+		if (_scoreMode._timeLimit <= 0 && _scoring)
+		{
+			endScoring();
+		}
 		
 		if (FlxG.keys.justPressed.ONE)
 		{

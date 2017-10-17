@@ -19,7 +19,7 @@ class ScoreMode extends FlxSpriteGroup
 	
 	private var _timer:FlxText;
 	
-	private var _timeLimit:Float = 60; //60 seconds, in milliseconds
+	public var _timeLimit:Float = 60; //60 seconds, in milliseconds
 	public var _timerStarted:Bool = false;
 	
 	public var _timerGrp:FlxSpriteGroup;
