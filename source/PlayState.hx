@@ -41,6 +41,8 @@ class PlayState extends FlxState
 	
 	private var _maxBrushSize:Float = 6;
 	
+	private var _scoring:Bool = false;
+	
 	private var _scoreMode:ScoreMode;
 	
 	/**
@@ -87,7 +89,7 @@ class PlayState extends FlxState
 		
 		
 		_reference = new FlxSprite(70, 0);
-		_reference.alpha = 0.5;
+		_reference.alpha = 0;
 		
 		_scoreMode = new ScoreMode();
 		_scoreMode.scrollFactor.x = _scoreMode.scrollFactor.y = 0;
@@ -235,6 +237,7 @@ class PlayState extends FlxState
 		if (FlxG.keys.justPressed.TWO)
 		{
 			_scoreMode.killTimer();
+			endScoring();
 		}
 		
 		FlxG.watch.addQuick("Cam Scale", FlxG.camera.zoom);
@@ -247,8 +250,17 @@ class PlayState extends FlxState
 		_reference.loadGraphic(Prompts.art[_randomRef], false, Prompts.artWidth[_randomRef], Prompts.artHeight[_randomRef]);
 		_reference.setGraphicSize(0, Std.int(_bg.height));
 		_reference.updateHitbox();
+		_reference.alpha = 0.5;
+		_scoring = true;
 		
 		_scoreMode.newTimer();
+	}
+	
+	private function endScoring():Void
+	{
+		_reference.alpha = 0;
+		_scoring = false;
+		_scoreMode._timerStarted = false;
 	}
 	
 	private function undo():Void
