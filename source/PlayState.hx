@@ -1,5 +1,8 @@
 package;
 
+import assets.manager.FileLoader;
+import assets.manager.misc.FileInfo;
+import assets.manager.misc.LoaderStatus;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.utils.ByteArray;
@@ -143,6 +146,17 @@ class PlayState extends FlxState
 		_NGRadio.loadStream("http://radio-stream01.ungrounded.net/easylistening", false, false);
 		
 		_NGRadio.play();
+		
+		var loader = new FileLoader();
+		loader.loadText("https://radio-stream01.ungrounded.net/status-json-custom.xsl", onTextLoaded);
+		
+	}
+	function onTextLoaded(f:FileInfo):Void
+	{
+		if (f.status == LoaderStatus.LOADED)
+		{
+			FlxG.log.add(f.data);
+		}
 	}
 
 	override public function update(elapsed:Float):Void
