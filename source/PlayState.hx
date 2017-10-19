@@ -17,6 +17,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+import haxe.Json;
 import openfl.net.FileReference;
 
 
@@ -33,6 +34,7 @@ class PlayState extends FlxState
 	private var _player:FlxSprite;
 	
 	private var _NGRadio:FlxSound;
+	private var loader:FileLoader;
 	private var _screenGrab:FlxButton;
 	
 	private var _title:FlxText;
@@ -56,6 +58,7 @@ class PlayState extends FlxState
 	 * Timer so that when inking, it doesn't save the initial do in the undo/redo
 	 */
 	private var _timer:Float = 0.05;
+	private var _FileTimer:Float = 5;
 	
 	override public function create():Void
 	{
@@ -147,21 +150,30 @@ class PlayState extends FlxState
 		
 		_NGRadio.play();
 		
-		var loader = new FileLoader();
-		loader.loadText("https://radio-stream01.ungrounded.net/status-json-custom.xsl", onTextLoaded);
+		loader = new FileLoader();
+		
 		
 	}
 	function onTextLoaded(f:FileInfo):Void
 	{
+		FlxG.log.add("Text loaded");
 		if (f.status == LoaderStatus.LOADED)
 		{
-			FlxG.log.add(f.data);
+			var json = Json.parse(Reflect.field(f.data, "mounts./easylistening.current_song"));
+			FlxG.watch.addQuick("current song", json + "Current song lol");
+			FlxG.log.add("Good Load lol");
 		}
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		_NGRadio.volume = FlxG.sound.volume;
+		_FileTimer -= FlxG.elapsed;
+		if (_FileTimer <= 0)
+		{
+			loader.loadText("https://radio-stream01.ungrounded.net/status-json-custom.xsl", onTextLoaded);
+			_FileTimer = 5;
+		}
 		
 		var velX:Float = _player.velocity.x;
 		var velY:Float = _player.velocity.y;
